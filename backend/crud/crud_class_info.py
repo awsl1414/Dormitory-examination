@@ -1,7 +1,34 @@
+from typing import Optional
 from sqlalchemy.orm import Session
 from models.models_class_info import Grade, Major, Classes, Dorm
 from models.models_sanitation import Sanitation
 from schemas.schemas_class_info import SanitationCreate
+
+
+def query_info(
+    db: Session,
+    college: Optional[str] = None,
+    grade: Optional[str] = None,
+    major: Optional[str] = None,
+    classes: Optional[str] = None,
+    dorm: Optional[str] = None,
+    weeknum: Optional[str] = None,
+    status: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 100,
+):
+    if grade:
+        result = db.query
+
+    # grade = (
+    #     db.query(Sanitation)
+    #     .filter(Sanitation.Status == f"{status}")
+    #     .offset(skip)
+    #     .limit(limit)
+    #     .all()
+    # )
+
+    # return grade
 
 
 def create_grade(db: Session, grade_name: str) -> Grade:
@@ -42,4 +69,3 @@ def create_sanitation(db: Session, sanitation_data: SanitationCreate) -> Sanitat
     db.commit()
     db.refresh(sanitation)
     return sanitation
-

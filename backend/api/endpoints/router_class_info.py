@@ -1,12 +1,44 @@
 # 在api/endpoints/router_class_info.py中添加或修改以下代码
 
+from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas.schemas_class_info import GradeCreate, MajorCreate, ClassCreate, DormCreate, ClassInfoIn, SanitationCreate
+from schemas.schemas_class_info import (
+    GradeCreate,
+    MajorCreate,
+    ClassCreate,
+    DormCreate,
+    ClassInfoIn,
+    SanitationCreate,
+)
 from db.database import get_db
-from crud.crud_class_info import create_grade, create_major, create_class, create_dorm, create_sanitation
+from crud.crud_class_info import (
+    query_info,
+    create_grade,
+    create_major,
+    create_class,
+    create_dorm,
+    create_sanitation,
+)
 
 router_class_info = APIRouter()
+
+
+@router_class_info.get("/query_info")
+def query_info_api(
+    grade: Optional[str] = None,
+    college: Optional[str] = None,
+    major: Optional[str] = None,
+    classes: Optional[str] = None,
+    dorm: Optional[str] = None,
+    weeknum: Optional[str] = None,
+    status: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+):
+    query_ = query_info(db, college, grade, major, classes, dorm, weeknum, status)
+    return query_
 
 
 @router_class_info.post("/create_info")
@@ -20,12 +52,14 @@ def create_info_api(input_data: ClassInfoIn, db: Session = Depends(get_db)):
         class_ = create_class(db, class_name=class_name, major_id=major.MajorID)
         dorm = create_dorm(db, dorm_name=dorm_name, class_id=class_.ClassID)
 
-        results.append({
-            "grade": grade.GradeName,
-            "major": major.MajorName,
-            "class": class_.ClassName,
-            "dorm": dorm.DormName
-        })
+        results.append(
+            {
+                "grade": grade.GradeName,
+                "major": major.MajorName,
+                "class": class_.ClassName,
+                "dorm": dorm.DormName,
+            }
+        )
 
     return results
 
