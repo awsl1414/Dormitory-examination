@@ -26,7 +26,9 @@ class ClassInfoIn(BaseModel):
     info: List[str]
 
     class Config:
-        json_schema_extra = {"example": {"info": ["20 自动化 01 123", "21 机器人 02 224"]}}
+        json_schema_extra = {
+            "example": {"info": ["双能 20 自动化 01 123", "自动 21 机器人 02 224"]}
+        }
 
 
 class SanitationCreate(BaseModel):

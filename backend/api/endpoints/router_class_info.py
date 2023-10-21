@@ -49,6 +49,7 @@ def create_info_api(input_data: ClassInfoIn, db: Session = Depends(get_db)):
     results = []
     for info in input_data.info:
         college_name, grade_name, major_name, class_name, dorm_name = info.split()
+        # print(college_name, grade_name, major_name, class_name, dorm_name)
 
         college = create_college(db, college_name=college_name)
         grade = create_grade(db, grade_name=grade_name, college_id=college.CollegeID)

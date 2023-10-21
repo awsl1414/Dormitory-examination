@@ -18,8 +18,8 @@ def query_info(
     skip: int = 0,
     limit: int = 100,
 ):
-    if grade:
-        result = db.query
+    if college:
+        result = db.query()
 
     # grade = (
     #     db.query(Sanitation)
@@ -40,8 +40,8 @@ def create_college(db: Session, college_name: str) -> College:
     return college
 
 
-def create_grade(db: Session, grade_name: str) -> Grade:
-    grade = Grade(GradeName=grade_name)
+def create_grade(db: Session, grade_name: str, college_id: int) -> Grade:
+    grade = Grade(GradeName=grade_name, CollegeID=college_id)
     db.add(grade)
     db.commit()
     db.refresh(grade)
