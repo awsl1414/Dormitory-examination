@@ -29,19 +29,17 @@ router_class_info = APIRouter()
 # TODO 综合查询
 @router_class_info.get("/query_info")
 def query_info_api(
-    grade: Optional[str] = None,
     college: Optional[str] = None,
+    grade: Optional[str] = None,
     major: Optional[str] = None,
     classes: Optional[str] = None,
     dorm: Optional[str] = None,
-    weeknum: Optional[str] = None,
-    status: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
 ):
-    query_ = query_info(db, college, grade, major, classes, dorm, weeknum, status)
-    return query_
+    result = query_info(db, college, grade, major, classes, dorm)
+    return result
 
 
 @router_class_info.post("/create_info")

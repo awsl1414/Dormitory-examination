@@ -13,23 +13,61 @@ def query_info(
     major: Optional[str] = None,
     classes: Optional[str] = None,
     dorm: Optional[str] = None,
-    weeknum: Optional[str] = None,
-    status: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
 ):
     if college:
-        result = db.query()
+        result = (
+            db.query(Grade)
+            .join(College)
+            .filter(College.CollegeName == college)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+        return result
+    if grade:
+        result = (
+            db.query(Major)
+            .join(Grade)
+            .filter(Grade.GradeName == grade)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+        return result
+    if major:
+        result = (
+            db.query(Classes)
+            .join(Major)
+            .filter(Major.MajorName == major)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+        return result
+    if classes:
+        result = (
+            db.query(Dorm)
+            .join(Classes)
+            .filter(Classes.ClassName == classes)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+        return result
+    if dorm:
+        result = (
+            db.query(Sanitation)
+            .join(Dorm)
+            .filter(Dorm.DormName == dorm)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+        return result
 
-    # grade = (
-    #     db.query(Sanitation)
-    #     .filter(Sanitation.Status == f"{status}")
-    #     .offset(skip)
-    #     .limit(limit)
-    #     .all()
-    # )
-
-    # return grade
+    return "No data"
 
 
 def create_college(db: Session, college_name: str) -> College:
