@@ -1,10 +1,11 @@
 from typing import Optional
 from sqlalchemy.orm import Session
-from models.models_class_info import Grade, Major, Classes, Dorm
+from models.models_class_info import College, Grade, Major, Classes, Dorm
 from models.models_sanitation import Sanitation
 from schemas.schemas_class_info import SanitationCreate
 
 
+# TODO 综合查询
 def query_info(
     db: Session,
     college: Optional[str] = None,
@@ -29,6 +30,14 @@ def query_info(
     # )
 
     # return grade
+
+
+def create_college(db: Session, college_name: str) -> College:
+    college = College(CollegeName=college_name)
+    db.add(college)
+    db.commit()
+    db.refresh(college)
+    return college
 
 
 def create_grade(db: Session, grade_name: str) -> Grade:
