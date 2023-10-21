@@ -4,6 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from schemas.schemas_class_info import (
+    CollegeCreate,
     GradeCreate,
     MajorCreate,
     ClassCreate,
@@ -14,6 +15,7 @@ from schemas.schemas_class_info import (
 from db.database import get_db
 from crud.crud_class_info import (
     query_info,
+    create_college,
     create_grade,
     create_major,
     create_class,
@@ -24,6 +26,7 @@ from crud.crud_class_info import (
 router_class_info = APIRouter()
 
 
+# TODO 综合查询
 @router_class_info.get("/query_info")
 def query_info_api(
     grade: Optional[str] = None,
@@ -45,15 +48,17 @@ def query_info_api(
 def create_info_api(input_data: ClassInfoIn, db: Session = Depends(get_db)):
     results = []
     for info in input_data.info:
-        grade_name, major_name, class_name, dorm_name = info.split()
+        college_name, grade_name, major_name, class_name, dorm_name = info.split()
 
-        grade = create_grade(db, grade_name=grade_name)
+        college = create_college(db, college_name=college_name)
+        grade = create_grade(db, grade_name=grade_name, college_id=college.CollegeID)
         major = create_major(db, major_name=major_name, grade_id=grade.GradeID)
         class_ = create_class(db, class_name=class_name, major_id=major.MajorID)
         dorm = create_dorm(db, dorm_name=dorm_name, class_id=class_.ClassID)
 
         results.append(
             {
+                "college": college.CollegeName,
                 "grade": grade.GradeName,
                 "major": major.MajorName,
                 "class": class_.ClassName,
