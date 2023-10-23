@@ -5,12 +5,12 @@ from db.database import Base
 
 
 class Sanitation(Base):
-    __tablename__ = 'SanitationTable'
+    __tablename__ = "SanitationTable"
 
     RecordID = Column(Integer, primary_key=True, autoincrement=True)
     WeekNumber = Column(Integer)
     Weekday = Column(Integer)
     Status = Column(String)
-    DormID = Column(Integer, ForeignKey('DormTable.DormID'))
+    DormID = Column(Integer, ForeignKey("DormTable.DormID"))
 
-    dorm = relationship('Dorm', back_populates='sanitations')
+    dorm = relationship("Dorm", back_populates="sanitations")

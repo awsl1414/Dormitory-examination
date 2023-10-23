@@ -5,7 +5,6 @@ from models.models_sanitation import Sanitation
 from schemas.schemas_class_info import SanitationCreate
 
 
-# TODO 综合查询
 def query_info(
     db: Session,
     college: Optional[str] = None,
@@ -68,6 +67,11 @@ def query_info(
         return result
 
     return "No data"
+
+
+# TODO 总查询
+def query_info_all():
+    pass
 
 
 def create_college(db: Session, college_name: str) -> College:
