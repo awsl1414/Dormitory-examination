@@ -27,7 +27,9 @@ class ClassInfoIn(BaseModel):
 
     class Config:
         json_schema_extra = {
-            "example": {"info": ["双能 20 自动化 01 123", "自动 21 机器人 02 224"]}
+            "example": {
+                "info": ["双能 20 自动化 01 123", "双能 21 机器人 02 456", "软院 22 数媒体 03 789"]
+            }
         }
 
 
@@ -39,5 +41,6 @@ class SanitationCreate(BaseModel):
 
     class Config:
         json_schema_extra = {
-            "example": {"WeekNumber": 1, "Weekday": 1, "Status": "优秀", "DormID": 1}
+            "example1": {"WeekNumber": 1, "Weekday": 2, "Status": "优秀", "DormID": 1},
+            "example2": {"WeekNumber": 2, "Weekday": 3, "Status": "优秀", "DormID": 2},
         }
