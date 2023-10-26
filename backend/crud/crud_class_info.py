@@ -75,34 +75,6 @@ def query_info(
     return "No data"
 
 
-# TODO 总查询(有问题)
-def query_info_all(db: Session):
-    college_set, grade_set, major_set, classes_set, dorm_set = (
-        set(),
-        set(),
-        set(),
-        set(),
-        set(),
-    )
-
-    grade = db.query(Grade).all()
-    major = db.query(Major).all()
-    classes = db.query(Classes).all()
-    dorm = db.query(Dorm).all()
-    college = db.query(College).all()
-    for i in college:
-        college_set.add(i.CollegeName)
-    for i in grade:
-        grade_set.add(i.GradeName)
-    for i in major:
-        major_set.add(i.MajorName)
-    for i in classes:
-        classes_set.add(i.ClassName)
-    for i in dorm:
-        dorm_set.add(i.DormName)
-    print(college_set, grade_set, major_set, classes_set, dorm_set)
-
-
 def create_college(db: Session, college_name: str) -> College:
     if not db.query(College).filter(College.CollegeName == college_name).first():
         # temp.update({"college": college.CollegeName})

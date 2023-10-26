@@ -60,12 +60,6 @@ def query_test(name: str, db: Session = Depends(get_db)):
     print(result.CollegeID)
 
 
-# TODO 总查询
-@router_class_info.get("/query_info_all")
-def query_info_all_api(db: Session = Depends(get_db)):
-    query_info_all(db)
-
-
 @router_class_info.post("/create_college_info")
 def create_college_info(college_name: str, db: Session = Depends(get_db)):
     college = create_college(db, college_name=college_name)
