@@ -31,15 +31,26 @@ router_class_info = APIRouter()
 @router_class_info.get("/query_info")
 def query_info_api(
     college: Optional[str] = None,
-    grade: Optional[str] = None,
-    major: Optional[str] = None,
-    classes: Optional[str] = None,
-    dorm: Optional[str] = None,
+    college_to_grade: Optional[str] = None,
+    grade_to_major: Optional[str] = None,
+    major_to_classes: Optional[str] = None,
+    classes_to_dorm: Optional[str] = None,
+    dorm_to_sanitation: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
 ):
-    result = query_info(db, college, grade, major, classes, dorm, skip, limit)
+    result = query_info(
+        db,
+        college,
+        college_to_grade,
+        grade_to_major,
+        major_to_classes,
+        classes_to_dorm,
+        dorm_to_sanitation,
+        skip,
+        limit,
+    )
     return result
 
 
@@ -53,6 +64,12 @@ def query_test(name: str, db: Session = Depends(get_db)):
 @router_class_info.get("/query_info_all")
 def query_info_all_api(db: Session = Depends(get_db)):
     query_info_all(db)
+
+
+@router_class_info.post("/create_college_info")
+def create_college_info(college_name: str, db: Session = Depends(get_db)):
+    college = create_college(db, college_name=college_name)
+    return college
 
 
 @router_class_info.post("/create_info")
@@ -69,7 +86,6 @@ def create_info_api(input_data: ClassInfoIn, db: Session = Depends(get_db)):
             temp.update({"college": college.CollegeName})
         else:
             is_none.append(f"{college_name}已存在")
-            # TODO
             college_id = (
                 db.query(College)
                 .filter(College.CollegeName == college_name)

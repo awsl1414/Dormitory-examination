@@ -9,58 +9,63 @@ from utils import Response200, Response400
 def query_info(
     db: Session,
     college: Optional[str] = None,
-    grade: Optional[str] = None,
-    major: Optional[str] = None,
-    classes: Optional[str] = None,
-    dorm: Optional[str] = None,
+    college_to_grade: Optional[str] = None,
+    grade_to_major: Optional[str] = None,
+    major_to_classes: Optional[str] = None,
+    classes_to_dorm: Optional[str] = None,
+    dorm_to_sanitation: Optional[str] = None,
     skip: int = 0,
     limit: int = 100,
 ):
     if college:
+        result = db.query(College).offset(skip).limit(limit).all()
+        return result
+
+    if college_to_grade:
         result = (
             db.query(Grade)
             .join(College)
-            .filter(College.CollegeName == college)
+            .filter(College.CollegeName == college_to_grade)
             .offset(skip)
             .limit(limit)
             .all()
         )
         return result
-    if grade:
+    if grade_to_major:
         result = (
             db.query(Major)
             .join(Grade)
-            .filter(Grade.GradeName == grade)
+            .filter(Grade.GradeName == grade_to_major)
             .offset(skip)
             .limit(limit)
             .all()
         )
         return result
-    if major:
+    if major_to_classes:
         result = (
             db.query(Classes)
             .join(Major)
-            .filter(Major.MajorName == major)
+            .filter(Major.MajorName == major_to_classes)
             .offset(skip)
             .limit(limit)
             .all()
         )
         return result
-    if classes:
+    if classes_to_dorm:
         result = (
             db.query(Dorm)
             .join(Classes)
-            .filter(Classes.ClassName == classes)
+            .filter(Classes.ClassName == classes_to_dorm)
             .offset(skip)
             .limit(limit)
             .all()
         )
         return result
-    if dorm:
+    if dorm_to_sanitation:
         result = (
             db.query(Sanitation)
             .join(Dorm)
-            .filter(Dorm.DormName == dorm)
+            .filter(Dorm.DormName == dorm_to_sanitation)
             .offset(skip)
             .limit(limit)
             .all()
