@@ -16,13 +16,17 @@ from schemas.schemas_class_info import (
 from db.database import get_db
 from crud.crud_class_info import (
     query_info,
-    query_info_all,
     create_college,
     create_grade,
     create_major,
     create_class,
     create_dorm,
     create_sanitation,
+    update_college,
+    update_grade,
+    update_major,
+    update_classes,
+    update_dorm,
 )
 
 router_class_info = APIRouter()
@@ -124,9 +128,40 @@ def create_info_api(input_data: ClassInfoIn, db: Session = Depends(get_db)):
     #     print("内", temp)
     # print("外", temp)
     # print(results)
+
     return is_none, results
 
 
 @router_class_info.post("/create_sanitation", response_model=SanitationCreate)
 def create_sanitation_api(sanitation: SanitationCreate, db: Session = Depends(get_db)):
     return create_sanitation(db, sanitation_data=sanitation)
+
+
+@router_class_info.put("/update_college")
+def update_college_api(
+    college_name: str, re_college_name: str, db: Session = Depends(get_db)
+):
+    result = update_college(db, college_name, re_college_name)
+    return result
+
+
+@router_class_info.put("/update_grade")
+def update_grade_api(
+    grade_name: str, re_grade_name: str, db: Session = Depends(get_db)
+):
+    result = update_grade(db, grade_name, re_grade_name)
+    return result
+
+
+@router_class_info.put("/update_major")
+def update_major_api(
+    major_name: str, re_major_name: str, db: Session = Depends(get_db)
+):
+    result = update_major(db, major_name, re_major_name)
+    return result
+
+
+@router_class_info.put("/update_dorm")
+def update_dorm_api(dorm_name: str, re_dorm_name: str, db: Session = Depends(get_db)):
+    result = update_dorm(db, dorm_name, re_dorm_name)
+    return result

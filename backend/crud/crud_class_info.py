@@ -132,3 +132,43 @@ def create_sanitation(db: Session, sanitation_data: SanitationCreate) -> Sanitat
     db.commit()
     db.refresh(sanitation)
     return sanitation
+
+
+def update_college(db: Session, college_name: str, re_college_name: str) -> College:
+    if result := db.query(College).filter(College.CollegeName == college_name).first():
+        college = result.CollegeName = re_college_name
+        db.commit()
+        return Response200(data=college)
+    return Response400()
+
+
+def update_grade(db: Session, grade_name: str, re_grade_name: str) -> Grade:
+    if result := db.query(Grade).filter(Grade.GradeName == grade_name).first():
+        grade = result.GradeName = re_grade_name
+        db.commit()
+        return Response200(data=grade)
+    return Response400()
+
+
+def update_major(db: Session, major_name: str, re_major_name: str) -> Major:
+    if result := db.query(Major).filter(Major.MajorName == major_name).first():
+        major = result.MajorName = re_major_name
+        db.commit()
+        return Response200(data=major)
+    return Response400()
+
+
+def update_classes(db: Session, classes_name: str, re_classes_name: str) -> Classes:
+    if result := db.query(Classes).filter(Classes.ClassName == classes_name).first():
+        classes = result.ClassName = re_classes_name
+        db.commit()
+        return Response200(data=classes)
+    return Response400()
+
+
+def update_dorm(db: Session, dorm_name: str, re_dorm_name: str) -> Dorm:
+    if result := db.query(Dorm).filter(Dorm.DormName == dorm_name).first():
+        dorm = result.DormName = re_dorm_name
+        db.commit()
+        return Response200(data=dorm)
+    return Response400()
