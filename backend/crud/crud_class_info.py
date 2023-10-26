@@ -9,6 +9,10 @@ from utils import Response200, Response400
 def query_info(
     db: Session,
     college: Optional[str] = None,
+    grade: Optional[str] = None,
+    major: Optional[str] = None,
+    classes: Optional[str] = None,
+    dorm: Optional[str] = None,
     college_to_grade: Optional[str] = None,
     grade_to_major: Optional[str] = None,
     major_to_classes: Optional[str] = None,
@@ -19,6 +23,18 @@ def query_info(
 ):
     if college:
         result = db.query(College).offset(skip).limit(limit).all()
+        return result
+    if grade:
+        result = db.query(grade).offset(skip).limit(limit).all()
+        return result
+    if major:
+        result = db.query(major).offset(skip).limit(limit).all()
+        return result
+    if classes:
+        result = db.query(classes).offset(skip).limit(limit).all()
+        return result
+    if dorm:
+        result = db.query(dorm).offset(skip).limit(limit).all()
         return result
 
     if college_to_grade:

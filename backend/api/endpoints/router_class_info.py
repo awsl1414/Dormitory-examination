@@ -35,6 +35,10 @@ router_class_info = APIRouter()
 @router_class_info.get("/query_info")
 def query_info_api(
     college: Optional[str] = None,
+    grade: Optional[str] = None,
+    major: Optional[str] = None,
+    classes: Optional[str] = None,
+    dorm: Optional[str] = None,
     college_to_grade: Optional[str] = None,
     grade_to_major: Optional[str] = None,
     major_to_classes: Optional[str] = None,
@@ -47,6 +51,10 @@ def query_info_api(
     result = query_info(
         db,
         college,
+        grade,
+        major,
+        classes,
+        dorm,
         college_to_grade,
         grade_to_major,
         major_to_classes,
